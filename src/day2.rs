@@ -10,20 +10,20 @@ enum Outcome {
     Win = 2
 }
 
-fn play_string(play: &str) -> Play {
+fn play_string(play: char) -> Play {
     match play {
-        "A"|"X" => Play::Rock,
-        "B"|"Y" => Play::Paper,
-        "C"|"Z" => Play::Scissors,
+        'A'|'X' => Play::Rock,
+        'B'|'Y' => Play::Paper,
+        'C'|'Z' => Play::Scissors,
         _ => panic!("Invalid Play!")
     }
 }
 
-fn outcome_string(play: &str) -> Outcome {
+fn outcome_string(play: char) -> Outcome {
     match play {
-        "X" => Outcome::Lose,
-        "Y" => Outcome::Draw,
-        "Z" => Outcome::Win,
+        'X' => Outcome::Lose,
+        'Y' => Outcome::Draw,
+        'Z' => Outcome::Win,
         _ => panic!("Invalid Play!")
     }
 }
@@ -31,28 +31,21 @@ fn outcome_string(play: &str) -> Outcome {
 #[aoc(day2, part1)]
 pub fn part1(input: &str) -> usize {
     input.lines().map(|line| {
-        let mut items = line.split(" ");
+        let mut items = line.chars();
         let opponent = play_string(items.next().unwrap()) as usize;
+        items.next();
         let player = play_string(items.next().unwrap()) as usize;
         let outcome = (player + 4 - opponent) % 3;
-        // (match outcome {
-        //     0 => 3, // Draw
-        //     1 => 6, // Win
-        //     2 => 0, // Loss
-        //     _ => panic!("Invalid game outcome")
-        // }) + player
         outcome*3 + player
     }).sum::<usize>()
 }
 
-
-
-
 #[aoc(day2, part2)]
 pub fn part2(input: &str) -> usize {
     input.lines().map(|line| {
-        let mut items = line.split(" ");
+        let mut items = line.chars();
         let opponent = play_string(items.next().unwrap()) as usize;
+        items.next();
         let outcome = outcome_string(items.next().unwrap()) as usize;
         let player = (opponent + outcome + 1) % 3 +1;
         outcome*3 + player
