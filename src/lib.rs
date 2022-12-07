@@ -1,3 +1,4 @@
+#![feature(slice_group_by)]
 extern crate aoc_runner;
 
 #[macro_use]

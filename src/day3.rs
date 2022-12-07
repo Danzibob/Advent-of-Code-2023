@@ -27,7 +27,31 @@ pub fn part1(input: &str) -> usize {
         }
         panic!("No common items found!");
     }).sum::<usize>()
+}
 
+#[aoc(day3, part2)]
+pub fn part2(input: &str) -> usize {
+    let mut count: [usize;52] = [0;52];
+    input.lines().collect::<Vec<_>>().chunks(3).map(|group|{
+        for x in group[0].bytes(){
+            let idx = to_priority(x) as usize;
+            count[idx-1] = 1;
+        }
+        for x in group[1].bytes(){
+            let idx = to_priority(x) as usize;
+            if count[idx-1] == 1 {
+                count[idx-1] = 2;
+            }
+        }
+        for x in group[2].bytes(){
+            let idx = to_priority(x) as usize;
+            if count[idx-1] == 2{
+                count = [0;52];
+                return idx;
+            };
+        }
+        panic!("No common items found!");
+    }).sum::<usize>()
 }
 
 #[cfg(test)]
@@ -50,5 +74,9 @@ CrZsJsPPZsGzwwsLwLmpwMDw";
     #[test]
     fn part1_example() {
         assert_eq!(part1(TESTINPUT), 157);
+    }
+    #[test]
+    fn part2_example() {
+        assert_eq!(part2(TESTINPUT), 70);
     }
 }
