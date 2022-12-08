@@ -10,19 +10,17 @@ fn to_priority(c: u8) -> u8{
 
 #[aoc(day3, part1)]
 pub fn part1(input: &str) -> usize {
-    let mut count: [usize;52] = [0;52];
+    let mut count: [usize;123] = [0;123];
     input.lines().map(|line| {
         let h1 = &line[0..line.len()/2];
         let h2 = &line[line.len()/2..];
         for x in h1.bytes(){
-            let idx = to_priority(x) as usize;
-            count[idx-1] = 1;
+            count[x as usize] = 1;
         }
         for x in h2.bytes(){
-            let idx = to_priority(x) as usize;
-            if count[idx-1] == 1{
-                count = [0;52];
-                return idx
+            if count[x as usize] == 1{
+                count = [0;123];
+                return to_priority(x) as usize;
             };
         }
         panic!("No common items found!");
@@ -31,23 +29,20 @@ pub fn part1(input: &str) -> usize {
 
 #[aoc(day3, part2)]
 pub fn part2(input: &str) -> usize {
-    let mut count: [usize;52] = [0;52];
+    let mut count: [usize;123] = [0;123];
     input.lines().collect::<Vec<_>>().chunks(3).map(|group|{
         for x in group[0].bytes(){
-            let idx = to_priority(x) as usize;
-            count[idx-1] = 1;
+            count[x as usize] = 1;
         }
         for x in group[1].bytes(){
-            let idx = to_priority(x) as usize;
-            if count[idx-1] == 1 {
-                count[idx-1] = 2;
+            if count[x as usize] == 1 {
+                count[x as usize] = 2;
             }
         }
         for x in group[2].bytes(){
-            let idx = to_priority(x) as usize;
-            if count[idx-1] == 2{
-                count = [0;52];
-                return idx;
+            if count[x as usize] == 2{
+                count = [0;123];
+                return x as usize;
             };
         }
         panic!("No common items found!");
