@@ -1,3 +1,5 @@
+#![allow(non_snake_case)]
+
 #[aoc(day4, part1)]
 pub fn part1(input: &str) -> usize {
     input.lines().map(|line| {
@@ -23,8 +25,7 @@ pub fn part2(input: &str) -> usize {
         });
         let (A0, A1) = pairs.next().unwrap();
         let (B0, B1) = pairs.next().unwrap();
-        (A0 <= B0 && A1 >= B0) || 
-        (A0 <= B1 && A1 >= B1)
+        ((A0 >= B0 && A0 <= B1) || (A1 >= B0 && A1 <= B1)) || ((A0 <= B0 && A1 >= B1) || (B0 <= A0 && B1 >= A1))
     }).count()
 }
 
